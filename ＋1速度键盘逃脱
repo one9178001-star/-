@@ -1,0 +1,150 @@
+local Translations = {
+    ["CACTUS HUB PRO"] = "仙人掌中心专业版",
+    ["Main"] = "主页",
+    ["Farming"] = "自动挂机",
+    ["Visuals"] = "视觉设置",
+    ["Settings"] = "设置",
+    ["Live Stats"] = "实时数据",
+    ["Level"] = "等级",
+    ["Wins"] = "胜利次数",
+    ["Rebirth Mult"] = "重生倍率",
+    ["Rebirths"] = "重生次数",
+    ["XP"] = "经验值",
+    ["Total XP (Speed)"] = "总经验值（速度）",
+    ["Speed Boost"] = "速度加成",
+    ["Trail"] = "拖尾",
+    ["None"] = "无",
+    ["Aura"] = "光环",
+    ["Step Bonus"] = "步数奖励",
+    ["FPS"] = "帧率",
+    ["Boosts"] = "增益效果",
+    ["Speed Boost"] = "速度增益",
+    ["Wins Boost"] = "胜利加成",
+    ["Activate All Boosts Now"] = "立即开启所有增益",
+    ["Unlock All Treadmills"] = "解锁全部跑步机",
+    ["Rewards"] = "奖励",
+    ["Claim Group Gift"] = "领取公会礼物",
+    ["Equip Best Step Award"] = "装备最佳步数奖励",
+    ["Quick Teleport"] = "快速传送",
+    ["Teleport to Treadmill"] = "传送到跑步机",
+    ["Teleport to Win Zone"] = "传送到胜利区域",
+    ["button"] = "按钮",
+    ["Treadmill Farming"] = "跑步机自动挂机",
+    ["Treadmill Type"] = "跑步机类型",
+    ["Normal"] = "普通",
+    ["Refresh Treadmill List"] = "刷新跑步机列表",
+    ["Treadmill Auto-Run"] = "跑步机自动奔跑",
+    ["Gold"] = "黄金",
+    ["Diamond"] = "钻石",
+    ["Candy"] = "糖果",
+    ["Admin"] = "管理员",
+    ["Admin Abuse"] = "管理员权限功能",
+    ["Auto Win"] = "自动获胜",
+    ["Auto Win (Tween to Finish)"] = "自动获胜（平滑直达终点）",
+    ["Rebirth"] = "重生",
+    ["Auto Rebirth (Smart)"] = "智能自动重生",
+    ["Manual Rebirth"] = "手动重生",
+    ["Speed"] = "速度",
+    ["Set Max Speed for Level"] = "设置当前等级最大速度",
+    ["Auras & Trails"] = "光环与拖尾特效",
+    ["Auto Equip Best Aura"] = "自动装备最优光环",
+    ["List Owned Auras (Console)"] = "列出已拥有光环（控制台）",
+    ["Character"] = "角色",
+    ["WalkSpeed"] = "移动速度",
+    ["JumpPower"] = "跳跃力度",
+    ["Movement"] = "移动设置",
+    ["Noclip"] = "穿墙模式",
+    ["Infinite Jump"] = "无限跳跃",
+    ["Fly"] = "飞行",
+    ["Fly Speed"] = "飞行速度",
+    ["studs/s"] = "格/秒", 
+    ["Player ESP"] = "玩家透视",
+    ["ESP Fill Color"] = "透视填充颜色",
+    ["ESP Outline Color"] = "透视边框颜色",
+    ["World"] = "世界设置",
+    ["Fullbright"] = "全局高亮",
+    ["Hide Other Players"] = "隐藏其他玩家", 
+    ["Server"] = "服务器",
+    ["Rejoin Server"] = "重新加入服务器",
+    ["Server Hop"] = "切换服务器",
+    ["Anti-AFK"] = "防挂机",
+    ["Player Info"] = "玩家信息",
+    ["Copy UserId"] = "复制用户ID",
+    ["Copy Username"] = "复制用户名",
+    ["Print All State Keys (Console)"] = "打印全部状态键（控制台）",
+    ["Config"] = "配置文件",
+    ["Save Config"] = "保存配置",
+    ["Reset All Settings"] = "重置所有设置"
+   
+}
+
+local function translateText(text)
+    if type(text) ~= "string" or text == "" then return text end
+    local translated = Translations[text]
+    if translated then return translated end
+    for en, cn in pairs(Translations) do
+        if text:find(en, 1, true) then
+            return text:gsub(en, cn)
+        end
+    end
+    return text
+end
+
+-- 元表劫持
+local function hookMetatable()
+    local mt = getrawmetatable(game)
+    if not mt then return false end
+    local old = mt.__newindex
+    if not old then return false end
+    setreadonly(mt, false)
+    mt.__newindex = newcclosure(function(t, k, v)
+        if k == "Text" and t:IsA("TextLabel") then
+            v = translateText(v)
+        end
+        return old(t, k, v)
+    end)
+    setreadonly(mt, true)
+    return true
+end
+
+-- 备选方案（更精简）
+local function fallbackScan()
+    local cache = setmetatable({}, {__mode = "k"})
+    local function scan(parent)
+        if not parent then return end
+        for _, v in ipairs(parent:GetDescendants()) do
+            if not cache[v] and (v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("TextBox")) then
+                cache[v] = true
+                pcall(function()
+                    local new = translateText(v.Text)
+                    if new ~= v.Text then v.Text = new end
+                end)
+            end
+        end
+    end
+    local function listen(parent)
+        if parent then
+            parent.DescendantAdded:Connect(function(v)
+                task.wait()
+                if (v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("TextBox")) and not cache[v] then
+                    cache[v] = true
+                    pcall(function()
+                        local new = translateText(v.Text)
+                        if new ~= v.Text then v.Text = new end
+                    end)
+                end
+            end)
+        end
+    end
+    listen(game:GetService("CoreGui"))
+    listen(game.Players.LocalPlayer and game.Players.LocalPlayer:FindFirstChild("PlayerGui"))
+    game:GetService("RunService").Stepped:Connect(scan)
+end
+
+-- 启动
+task.wait(2)
+if not hookMetatable() then fallbackScan() end
+
+-- ====== 在这里添加外部脚本 ======
+loadstring(game:HttpGet("https://rblxscripts.net/raw/no-key-cactus-hub-pro-1-speed-keyboard-escape-auto-farm-auto-70aa18aa"))()
+-- =================================
