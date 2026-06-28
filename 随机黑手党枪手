@@ -1,0 +1,295 @@
+local Translations = {
+    ["User details and Information"] = "用户详细资料",
+    ["Copy Discord Invite"] = "复制Discord邀请链接",
+    ["Configuration and Settings"] = "配置与设置",
+    ["Current autoload config"] = "当前自动加载配置",
+    ["Having trouble getting a key?"] = "获取密钥遇到问题？",
+    ["Open Keybind Menu"] = "打开快捷键菜单",
+    ["Auto Rob & Sell"] = "自动抢劫与变卖",
+    ["Auto Collect Money"] = "自动拾取金钱",
+    ["Select where to rob"] = "选择抢劫地点",
+    ["Select a menu to show"] = "选择显示菜单",
+    ["WalkSpeed Multiplier"] = "移速倍率",
+    ["JumpPower Multiplier"] = "跳跃力度倍率",
+    ["Vortex"] = "涡旋",
+    ["Home"] = "主页",
+    ["Main"] = "主菜单",
+    ["Settings"] = "设置",
+    ["Toggle"] = "开关",
+    ["Search"] = "搜索",
+    ["Information"] = "信息",
+    ["Script Status"] = "脚本状态",
+    ["Key Info"] = "密钥信息",
+    ["Credits"] = "开发人员",
+    ["Executor"] = "执行器",
+    ["Greetings"] = "欢迎",
+    ["Updated"] = "更新时间",
+    ["Status"] = "状态",
+    ["Beta"] = "测试版",
+    ["Version"] = "版本",
+    ["Online"] = "在线时长",
+    ["Lead Programmer"] = "主程序员",
+    ["Programmer / Helper"] = "程序员/助手",
+    ["Menu bind"] = "菜单快捷键",
+    ["Unload"] = "卸载",
+    ["Themes"] = "主题",
+    ["Background color"] = "背景颜色",
+    ["Main color"] = "主色调",
+    ["Accent color"] = "强调色",
+    ["Outline color"] = "轮廓颜色",
+    ["Load config"] = "加载配置",
+    ["Overwrite config"] = "覆盖配置",
+    ["Delete config"] = "删除配置",
+    ["Refresh list"] = "刷新列表",
+    ["Set as autoload"] = "设置为自动加载",
+    ["Reset autoload"] = "重置自动加载",
+    ["Vortex Services"] = "涡旋服务",
+    ["Input key here."] = "在此输入密钥",
+    ["Get Key"] = "获取密钥",
+    ["Validate Key"] = "验证密钥",
+    ["for help!"] = "寻求帮助！",
+    ["Tired of ads?"] = "厌烦广告？",
+    ["buy a key"] = "购买密钥",
+    ["thank"] = "感谢",
+    ["Visit"] = "访问",
+    ["Menu"] = "菜单",
+    ["Configuration"] = "配置文件",
+    ["Custom Cursor"] = "自定义光标",
+    ["Watermark"] = "水印",
+    ["Notification Side"] = "通知位置",
+    ["Right"] = "右侧",
+    ["DPI Scale"] = "DPI缩放",
+    ["Config name"] = "配置名称",
+    ["Create config"] = "创建配置",
+    ["Config list"] = "配置列表",
+    ["Main features"] = "主要功能",
+    ["target Type"] = "目标类型",
+    ["Players"] = "玩家",
+    ["Mobile Aimbot"] = "移动自瞄",
+    ["Lock Position"] = "锁定位置",
+    ["Wallcheck"] = "穿墙检测",
+    ["Whitelist"] = "白名单",
+    ["Show FOV"] = "显示视野范围",
+    ["Smoothness"] = "平滑度",
+    ["FOV Size"] = "视野大小",
+    ["Field Of View"] = "视野",
+    ["Money ESP"] = "金钱透视",
+    ["Player HUD"] = "玩家信息显示",
+    ["Police HUD"] = "警察信息显示",
+    ["Civilian HUD"] = "平民信息显示",
+    ["NOTIFIER"] = "消息提醒",
+    ["Waiting..."] = "等待中...",
+    ["main"] = "主要功能",
+    ["Visuals"] = "视觉效果",
+    ["Enable ESP"] = "开启透视",
+    ["Player ESP"] = "玩家透视",
+    ["Police ESP"] = "警察透视",
+    ["Civilian ESP"] = "平民透视",
+    ["Auto Contract"] = "自动接取任务",
+    ["Auto Farm Money"] = "自动刷钱",
+    ["Robbery Notifier"] = "抢劫提醒",
+    ["No Traffic"] = "无车辆拥堵",
+    ["Remove Wanted Level"] = "消除通缉等级",
+    ["Robbing + Main"] = "抢劫+主功能",
+    ["Player"] = "玩家",
+    ["Anti-AFK"] = "防挂机",
+    ["Infinite Jump"] = "无限跳跃",
+    ["No Clip"] = "穿墙模式",
+    ["Kill Yourself"] = "自杀",
+    ["Lock"] = "锁定",
+    ["Services"] = "服务",
+    ["Vault Code"] = "金库密码",
+    ["Search"] = "搜索",
+    ["Sell Valuables"] = "变卖贵重物品",
+    ["Destroy Buildings"] = "摧毁建筑",
+    ["Server Hop"] = "切换服务器",
+    ["Aimbot"] = "自瞄",
+    ["Jeweler"] = "珠宝店",
+    ["Cargo"] = "货运点",
+    ["Bank"] = "银行",
+    ["Search..."] = "搜索...",
+    ["Blackmarket"] = "黑市",
+    ["UpdateLogs"] = "更新日志",
+    ["ClothingShop"] = "服装店",
+    ["Shop"] = "商店",
+    ["Mafia"] = "黑手党",
+    ["MobileButtons"] = "移动端按键",
+    ["BankVaultKeypad"] = "银行金库密码按键",
+    ["Create theme"] = "创建主题",
+    ["Custom themes"] = "自定义主题",
+    ["Load theme"] = "加载主题",
+    ["Overwrite theme"] = "覆盖主题",
+    ["Delete theme"] = "删除主题",
+    ["Set as default"] = "设为默认",
+    ["Reset default"] = "重置默认",
+    ["none"] = "无",
+    ["Font color"] = "字体颜色",
+    ["Font Face"] = "字体",
+    ["Theme list"] = "主题列表",
+    ["Default"] = "默认",
+    ["Set as default"] = "设为默认",
+    ["Custom theme name"] = "自定义主题名称",
+    ["Create theme"] = "创建主题",
+    ["BuilderSans"] = "建造者无衬线字体",
+    ["Sell Valuables"] = "出售贵重物品",
+    ["Destroy Buildings"] = "摧毁建筑",
+    ["Server Hop"] = "切换服务器",
+    ["Quick Actions"] = "快捷操作",
+    ["Rejoin Game"] = "重新加入对局",
+    ["Full support"] = "完整支持",
+    ["卸载 Script"] = "卸载脚本",
+    ["Left"] = "左侧",
+    ["Monokai"] = "单色主题",
+    ["Gruvbox"] = "暖色调主题",
+    ["Solarized"] = "护眼配色",
+    ["Catppuccin"] = "摩卡配色",
+    ["One Dark"] = "暗黑主题",
+    ["Cyberpunk"] = "赛博朋克",
+    ["Oceanic Next"] = "海洋风",
+    ["Material"] = "材质配色",
+    ["Code"] = "代码字体",
+    ["Fantasy"] = "艺术字体",
+    ["Gotham"] = "哥谭字体",
+    ["Jura"] = "儒拉字体",
+    ["Roboto"] = "无衬线常规字体",
+    ["RobotoMono"] = "等宽Roboto字体",
+    ["SourceSans"] = "思源无衬线字体",
+    ["BBot"] = "机器人助手",
+    ["Fatality"] = "终结",
+    ["Jester"] = "小丑",
+    ["Mint"] = "薄荷",
+    ["Tokyo Night"] = "东京之夜",
+    ["Ubuntu"] = "乌班图",
+    ["Quartz"] = "石英",
+    ["Nord"] = "北欧色调",
+    ["Fatality"] = "终结",
+    ["Jester"] = "小丑",
+    ["Mint"] = "薄荷",
+    ["Tokyo Night"] = "东京之夜",
+    ["Ubuntu"] = "乌班图",
+    ["Quartz"] = "石英",
+    ["Nord"] = "北欧",
+    ["Dracula"] = "德古拉",
+    ["Bots"] = "机器人",
+    ["Both"] = "全部",
+    ["Search..."] = "搜索...",
+    ["Gun"] = "枪械",
+    ["Missions"] = "任务",
+    ["FightClub"] = "搏击俱乐部",
+    ["FullMap"] = "完整地图",
+    ["PlanningTable"] = "策划台",
+    ["BusinessManagement"] = "生意管理",
+    ["BusinessSupplier"] = "货源供应商",
+    ["Profile"] = "个人资料",
+    
+}
+
+local function translateText(text)
+    if type(text) ~= "string" or text == "" then return text end
+    
+    -- 精确匹配
+    if Translations[text] then return Translations[text] end
+    
+    -- 去空格、去标点、去数字、忽略大小写
+    local variants = {
+        text:gsub("^%s+", ""):gsub("%s+$", ""),
+        text:lower(),
+        text:gsub("[%p]", ""):gsub("^%s+", ""):gsub("%s+$", ""),
+        text:gsub("[%d]", ""):gsub("^%s+", ""):gsub("%s+$", ""),
+        text:gsub("%s+", ""),
+    }
+    for _, v in ipairs(variants) do
+        if Translations[v] then return Translations[v] end
+    end
+    
+    -- 忽略大小写匹配
+    local lower = text:lower()
+    for en, cn in pairs(Translations) do
+        if en:lower() == lower then return cn end
+    end
+    
+    -- 子串替换
+    for en, cn in pairs(Translations) do
+        if text:find(en, 1, true) then
+            return text:gsub(en, cn)
+        end
+    end
+    
+    return text
+end
+
+local function hookMetatable()
+    local mt = getrawmetatable(game)
+    if not mt then return false end
+    local old = mt.__newindex
+    if not old then return false end
+    setreadonly(mt, false)
+    mt.__newindex = newcclosure(function(t, k, v)
+        if k == "Text" and (t:IsA("TextLabel") or t:IsA("TextButton") or t:IsA("TextBox")) then
+            v = translateText(v)
+        end
+        return old(t, k, v)
+    end)
+    setreadonly(mt, true)
+    return true
+end
+
+local function fallbackScan()
+    local cache = setmetatable({}, {__mode = "k"})
+    local function scan(parent)
+        if not parent then return end
+        for _, v in ipairs(parent:GetDescendants()) do
+            if not cache[v] and (v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("TextBox")) then
+                cache[v] = true
+                pcall(function()
+                    local new = translateText(v.Text)
+                    if new ~= v.Text then v.Text = new end
+                end)
+            end
+        end
+    end
+    local function listen(parent)
+        if parent then
+            parent.DescendantAdded:Connect(function(v)
+                task.wait(0.1)
+                if (v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("TextBox")) and not cache[v] then
+                    cache[v] = true
+                    pcall(function()
+                        local new = translateText(v.Text)
+                        if new ~= v.Text then v.Text = new end
+                    end)
+                end
+            end)
+        end
+    end
+    local player = game:GetService("Players").LocalPlayer
+    listen(game:GetService("CoreGui"))
+    if player and player:FindFirstChild("PlayerGui") then
+        listen(player.PlayerGui)
+    end
+    game:GetService("RunService").Stepped:Connect(function()
+        scan(game:GetService("CoreGui"))
+        if player and player:FindFirstChild("PlayerGui") then
+            scan(player.PlayerGui)
+        end
+    end)
+    for i = 1, 5 do
+        task.wait(0.5)
+        scan(game:GetService("CoreGui"))
+        if player and player:FindFirstChild("PlayerGui") then
+            scan(player.PlayerGui)
+        end
+    end
+end
+
+task.wait(2)
+if not hookMetatable() then
+    fallbackScan()
+else
+    task.wait(0.5)
+    fallbackScan()
+end
+
+-- ====== 在这里添加外部脚本 ======
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/VortexServicesx/Roblox/refs/heads/main/loader.lua"),true))()
+-- ================================
