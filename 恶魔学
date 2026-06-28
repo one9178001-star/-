@@ -1,0 +1,200 @@
+local Translations = {
+    ["Demonology 1.5"] = "恶魔学1.5",
+    ["Script by FourHub"] = "KB汉化",
+    ["Handprints"] = "手印",
+    ["Spirit Box"] = "通灵盒",
+    ["Ghost Orb"] = "幽灵球",
+    ["Ghost Writing"] = "幽灵书",
+    ["Laser Projector"] = "点阵投影仪",
+    ["Wither"] = "花朵",
+    ["EMF level"] = "磁场探测器",
+    ["Temperature"] = "温度",
+    ["Next page"] = "翻页", 
+    ["Player enegry"] = "玩家能量",
+    ["Speed"] = "速度", 
+    ["Item esp"] = "道具透视",
+    ["Handprints, Orb esp"] = "手印、光球透视",
+    ["Take 3 stars photo"] = "拍摄三星照片",
+    ["Players esp"] = "玩家透视",
+    ["Full bright"] = "高亮",
+    ["Ghost esp"] = "鬼魂透视",
+    ["Hunt escape"] = "自动躲避猎杀",
+    ["Place stuffs near ghost"] = "在鬼魂旁放置道具",
+    ["Check speed"] = "检测移速",
+    ["Turn on fuse"] = "开启电闸",
+    ["Auto spirit box"] = "自动通灵盒",
+    ["Take a photo ghost"] = "拍摄鬼魂照片",
+    ["Toggle all lights"] = "打开所有灯光",
+    ["Yes"] = "是",
+    ["No"] = "无",
+    ["Living room"] = "客厅",
+    ["Load infinite yield"] = "加载FE",
+    ["Coming soon"] = "即将推出",
+    ["Male"] = "男性",
+    ["Age"] = "年龄",
+    ["Favorite room"] = "最喜欢的房间",
+    ["Current room"] = "当前房间",
+    ["Difficulty"] = "难度",
+    ["Easy"] = "简单",
+    ["Unknow"] = "未知",
+    ["Unknown"] = "未知",
+    ["Nightmare"] = "噩梦",
+    ["Ghost"] = "鬼魂",
+    ["Master bedroom"] = "主卧室",
+    ["Bathroom"] = "卫生间",
+    ["Garage"] = "车库",
+    ["Laundry room"] = "洗衣房",
+    ["Basement"] = "地下室",
+    ["Female"] = "女性",
+    ["Umbra"] = "通灵板",
+    ["Writing"] = "书写",
+    ["Orb"] = "光球",
+    ["Box"] = "盒",
+    ["Projector"] = "投影仪",
+    ["level"] = "等级",
+    ["page"] = "页",
+    ["enegry"] = "能量",
+    ["esp"] = "透视",
+    ["stars"] = "星",
+    ["photo"] = "照片",
+    ["bright"] = "亮",
+    ["hunt"] = "猎杀",
+    ["escape"] = "躲避",
+    ["fuse"] = "电闸",
+    ["lights"] = "灯光",
+    ["room"] = "房间",
+    ["infinite"] = "无限",
+    ["yield"] = "屈服",
+    ["Favorite"] = "最喜欢的",
+    ["Current"] = "当前"
+}
+
+local sortedKeys = {}
+for key, _ in pairs(Translations) do
+    table.insert(sortedKeys, key)
+end
+table.sort(sortedKeys, function(a, b) return #a > #b end)
+
+local function translateText(text)
+    if type(text) ~= "string" or text == "" then return text end
+    if Translations[text] then return Translations[text] end
+    local trimmed = text:gsub("^%s+", ""):gsub("%s+$", "")
+    if Translations[trimmed] then return Translations[trimmed] end
+    local lowerText = text:lower()
+    for en, cn in pairs(Translations) do
+        if en:lower() == lowerText then return cn end
+    end
+    local result = text
+    local replaced = {}
+    for _, en in ipairs(sortedKeys) do
+        local alreadyReplaced = false
+        for _, rep in ipairs(replaced) do
+            if result:find(rep, 1, true) then
+                alreadyReplaced = true
+                break
+            end
+        end
+        if not alreadyReplaced then
+            local cn = Translations[en]
+            local newResult = result:gsub(en, cn)
+            if newResult ~= result then
+                result = newResult
+                table.insert(replaced, en)
+            end
+        end
+    end
+    return result
+end
+
+local function hookMetatable()
+    local mt = getrawmetatable(game)
+    if not mt then return false end
+    local old = mt.__newindex
+    if not old then return false end
+    setreadonly(mt, false)
+    mt.__newindex = newcclosure(function(t, k, v)
+        if k == "Text" and type(v) == "string" then
+            local isTextObject = t:IsA("TextLabel") or t:IsA("TextButton") or t:IsA("TextBox")
+            if isTextObject then
+                local translated = translateText(v)
+                if translated ~= v then
+                    return old(t, k, translated)
+                end
+            end
+        end
+        return old(t, k, v)
+    end)
+    setreadonly(mt, true)
+    return true
+end
+
+local function scanOnce()
+    local count = 0
+    local function scan(parent)
+        if not parent then return end
+        for _, v in ipairs(parent:GetDescendants()) do
+            local isTextObject = v:IsA("TextLabel") or v:IsA("TextButton") or v:IsA("TextBox")
+            if isTextObject then
+                pcall(function()
+                    local original = v.Text
+                    if original and original ~= "" then
+                        local translated = translateText(original)
+                        if translated ~= original then
+                            v.Text = translated
+                            count = count + 1
+                        end
+                    end
+                end)
+            end
+        end
+    end
+    
+    scan(game:GetService("CoreGui"))
+    local player = game.Players.LocalPlayer
+    if player then
+        local pg = player:FindFirstChild("PlayerGui")
+        if pg then scan(pg) end
+        player.ChildAdded:Connect(function(child)
+            if child.Name == "PlayerGui" then
+                task.wait(0.3)
+                scan(child)
+                child.DescendantAdded:Connect(function(ui)
+                    task.wait()
+                    local isTextObject = ui:IsA("TextLabel") or ui:IsA("TextButton") or ui:IsA("TextBox")
+                    if isTextObject and ui.Text and ui.Text ~= "" then
+                        pcall(function()
+                            local translated = translateText(ui.Text)
+                            if translated ~= ui.Text then
+                                ui.Text = translated
+                            end
+                        end)
+                    end
+                end)
+            end
+        end)
+    end
+    
+    local coreGui = game:GetService("CoreGui")
+    coreGui.DescendantAdded:Connect(function(ui)
+        task.wait()
+        local isTextObject = ui:IsA("TextLabel") or ui:IsA("TextButton") or ui:IsA("TextBox")
+        if isTextObject and ui.Text and ui.Text ~= "" then
+            pcall(function()
+                local translated = translateText(ui.Text)
+                if translated ~= ui.Text then
+                    ui.Text = translated
+                end
+            end)
+        end
+    end)
+    
+    return count
+end
+
+task.wait(2)
+hookMetatable()
+local count = scanOnce()
+print("翻译引擎已就绪，初始翻译 " .. count .. " 个文本对象")
+
+-- ====== 外部脚本 ======
+loadstring(game:HttpGet("https://fourhub13.vercel.app/Demonology.lua"))()
