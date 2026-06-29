@@ -1,0 +1,208 @@
+local Translations = {
+["RINGTA SCRIPTS"] = "RINGTA脚本",
+["Final"] = "最终关卡",
+["Sky Squid Game & Poles"] = "空中鱿鱼游戏与杆子关卡",
+["SKY SQUID GAME GODMODE (BETA)"] = "空中鱿鱼无敌模式（测试版）",
+["INSTA GRAB Poles"] = "瞬间抓取杆子",
+["Red Light"] = "红灯游戏",
+["Pentathlon"] = "五项竞技",
+["Dalgona"] = "抠糖饼",
+["Tug Of War"] = "拔河",
+["Hide & Seek"] = "捉迷藏",
+["Jump/Glass"] = "玻璃桥",
+["Mingle"] = "混战模式",
+["Random"] = "随机关卡",
+["Rebel"] = "反叛者",
+["Rebel"] = "反叛者",
+["NPC Kill & Aimbot"] = "NPC击杀与自瞄",
+["Auto Kill NPC Guards"] = "自动击杀NPC守卫",
+["Rebel Aimbot"] = "反叛者自瞄",
+["Random"] = "随机关卡",
+["Game Boosts"] = "游戏增益",
+["Parkour Artist"] = "跑酷达人",
+["Auto Skip Button"] = "自动跳过按钮",
+["Movement & AntiFling"] = "移动与防卡顿击飞",
+["WalkSpeed Increase"] = "提升移动速度",
+["WalkSpeed Amount"] = "移动速度数值",
+["Reset WalkSpeed to Normal"] = "将移动速度恢复至默认值",
+["Fly Premium Only"] = "飞行功能仅会员可用",
+["Fly (BETA)"] = "飞行（测试版）",
+["Locked"] = "已锁定",
+["Fly Speed"] = "飞行速度",
+["Teleport & Emotes"] = "传送与动作表情",
+["Select Player"] = "选择玩家",
+["Teleport to Selected Player"] = "传送到选中玩家身边",
+["Mingle"] = "混战模式",
+["Auto QTE"] = "自动快速按键",
+["QTE Info"] = "功能说明",
+["Auto Win Mingle"] = "混战自动胜利",
+["How Auto Win Works"] = "自动胜利机制",
+["Jump/Glass"] = "跳绳与玻璃桥",
+["Jump Rope"] = "跳绳关卡",
+["TP to End (Jump Rope)"] = "传送到终点（跳绳）",
+["Delete The Rope"] = "移除绳索",
+["Glass Bridge Features"] = "玻璃桥功能",
+["Enable Glass ESP"] = "开启玻璃透视",
+["Troll Players Glass Bridge"] = "整蛊其他玩家（玻璃桥）",
+["TP to End (Glass Bridge)"] = "传送到终点（玻璃桥）",
+["Hide & Seek"] = "捉迷藏",
+["Hide And Seek Features"] = "捉迷藏功能",
+["KILL HIDERS (BETA)"] = "击杀躲藏者（测试版）",
+["Hide And Seek Utilities"] = "捉迷藏辅助工具",
+["Teleport 100 Blocks Up"] = "向上传送100格",
+["Teleport 40 Blocks Down"] = "向下传送40格",
+["Delete the Spikes"] = "删除尖刺",
+["Hide And Seek ESP"] = "捉迷藏人物透视",
+["Hide & Seek"] = "捉迷藏",
+["ESP Hider & Seeker"] = "躲藏者与搜寻者透视",
+["ESP Exit Doors"] = "出口大门透视",
+["Key ESP & Utility"] = "钥匙透视与辅助功能",
+["ESP Keys"] = "钥匙透视",
+["Teleport to Random Hider"] = "传送到随机躲藏者位置",
+["Kill Aura"] = "击杀光环",
+["KILL AURA (EXTREMELY SAFE)"] = "击杀光环（极高安全性）",
+["Tug Of War"] = "拔河",
+["Tug Of War Features"] = "拔河功能",
+["How It Works"] = "使用说明",
+["Auto Pull (Smart Timing)"] = "自动发力（智能时机）",
+["Dalgona"] = "抠糖饼",
+["Player Utilities"] = "玩家辅助功能",
+["Auto Complete Dalgona"] = "自动完成抠糖饼",
+["Auto Relaxing (Breathing)"] = "自动平复（憋气）",
+["Free Lighter"] = "免费打火机",
+["Pentathlon"] = "五项竞技",
+["Auto Win"] = "自动获胜",
+["How To Use"] = "使用方法",
+["Win: Ddakji (CURRENTLY THIS IS BROKEN RIGHT NOW)"] = "自动赢：拍纸片（当前功能已损坏）",
+["Win: FlyingStone"] = "自动赢：扔石头",
+["Win: Gonggi"] = "自动赢：抓石子",
+["Win: SpinningTop"] = "自动赢：陀螺",
+["Red Light"] = "红灯",
+["Main Features"] = "主要功能",
+["Teleport to End"] = "传送到终点",
+["Remove Injury"] = "消除受伤状态",
+["Home"] = "主页",
+["Features"] = "功能",
+["Refresh Player List"] = "刷新玩家列表",
+["Select Emotes"] = "选择动作表情",
+["Play Selected Emotes"] = "播放选中表情动作",
+["Stop Emoting"] = "停止播放表情动作",
+["Win：Jegi"] = "自动赢：扔石子",
+["Open"] ="打开",
+["SCRIPTS"] ="脚本"
+}
+
+local function translateText(text)
+    if not text or type(text) ~= "string" then return text end
+    
+    if Translations[text] then
+        return Translations[text]
+    end
+    
+    for en, cn in pairs(Translations) do
+        if text:find(en) then
+            return text:gsub(en, cn)
+        end
+    end
+    
+    return text
+end
+
+local function setupTranslationEngine()
+    local success, err = pcall(function()
+        local oldIndex = getrawmetatable(game).__newindex
+        setreadonly(getrawmetatable(game), false)
+        
+        getrawmetatable(game).__newindex = newcclosure(function(t, k, v)
+            if (t:IsA("TextLabel") or t:IsA("TextButton") or t:IsA("TextBox")) and k == "Text" then
+                v = translateText(tostring(v))
+            end
+            return oldIndex(t, k, v)
+        end)
+        
+        setreadonly(getrawmetatable(game), true)
+    end)
+    
+    if not success then
+        warn("元表劫持失败:", err)
+       
+        local translated = {}
+        local function scanAndTranslate()
+            for _, gui in ipairs(game:GetService("CoreGui"):GetDescendants()) do
+                if (gui:IsA("TextLabel") or gui:IsA("TextButton") or gui:IsA("TextBox")) and not translated[gui] then
+                    pcall(function()
+                        local text = gui.Text
+                        if text and text ~= "" then
+                            local translatedText = translateText(text)
+                            if translatedText ~= text then
+                                gui.Text = translatedText
+                                translated[gui] = true
+                            end
+                        end
+                    end)
+                end
+            end
+            
+            local player = game:GetService("Players").LocalPlayer
+            if player and player:FindFirstChild("PlayerGui") then
+                for _, gui in ipairs(player.PlayerGui:GetDescendants()) do
+                    if (gui:IsA("TextLabel") or gui:IsA("TextButton") or gui:IsA("TextBox")) and not translated[gui] then
+                        pcall(function()
+                            local text = gui.Text
+                            if text and text ~= "" then
+                                local translatedText = translateText(text)
+                                if translatedText ~= text then
+                                    gui.Text = translatedText
+                                    translated[gui] = true
+                                end
+                            end
+                        end)
+                    end
+                end
+            end
+        end
+        
+        local function setupDescendantListener(parent)
+            parent.DescendantAdded:Connect(function(descendant)
+                if descendant:IsA("TextLabel") or descendant:IsA("TextButton") or descendant:IsA("TextBox") then
+                    task.wait(0.1)
+                    pcall(function()
+                        local text = descendant.Text
+                        if text and text ~= "" then
+                            local translatedText = translateText(text)
+                            if translatedText ~= text then
+                                descendant.Text = translatedText
+                            end
+                        end
+                    end)
+                end
+            end)
+        end
+        
+        pcall(setupDescendantListener, game:GetService("CoreGui"))
+        local player = game:GetService("Players").LocalPlayer
+        if player and player:FindFirstChild("PlayerGui") then
+            pcall(setupDescendantListener, player.PlayerGui)
+        end
+        
+        while true do
+            scanAndTranslate()
+            task.wait(3)
+        end
+    end
+end
+
+task.wait(2)
+
+setupTranslationEngine()
+
+local success, err = pcall(function()
+--这下面填加载外部脚本
+loadstring(game:HttpGet("https://raw.githubusercontent.com/wefwef34/inkgames.github.io/refs/heads/main/ringta.lua"))()
+
+
+end)
+
+if not success then
+    warn("加载失败:", err)
+end
